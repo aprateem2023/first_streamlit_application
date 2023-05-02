@@ -10,6 +10,12 @@ def get_fruityvice_data(this_fruit_choice):
         # write your own comment - what does this do?
     return fruityvice_normalized
 
+def get_fruit_load_list():
+    my_cnx = snowflake.connector.connect(**st.secrets["snowflake"])
+    my_cur = my_cnx.cursor()
+    my_cur.execute("SELECT * from fruit_load_list")
+    return my_cur.fetchall()
+
 st.title("My Parents New Healthy Diner")
 st.header("Breakfast Favourites")
 st.text("🥣 Omega 3 and Blueberry Oatmeal")
@@ -47,12 +53,13 @@ except URLError as e:
     st.error()
 
 st.stop()
-my_cnx = snowflake.connector.connect(**st.secrets["snowflake"])
-my_cur = my_cnx.cursor()
-my_cur.execute("SELECT * from fruit_load_list")
-my_data_rows = my_cur.fetchall()
-st.header("The fruit load list contains:")
-st.dataframe(my_data_rows)
+if st.button("Get Fruit Load List"):
+    my_cnx = snowflake.connector.connect(**st.secrets["snowflake"])
+#my_cur = my_cnx.cursor()
+#my_cur.execute("SELECT * from fruit_load_list")
+    my_data_rows = get_fruit_load_list()
+#st.header("The fruit load list contains:")
+    st.dataframe(my_data_rows)
 
 add_my_fruit = st.text_input('What fruit would you like to add?','jackfruit')
 st.write('Thanks for adding', add_my_fruit)
