@@ -61,7 +61,8 @@ if st.button("Get Fruit List"):
 #my_cur = my_cnx.cursor()
 #my_cur.execute("SELECT * from fruit_load_list")
     my_data_rows = get_fruit_load_list(my_cnx)
-    st.text(my_data_rows)
+    fr_t_s = my_data_rows.loc['jackfruit']
+    st.dataframe(fr_t_s)
     my_cnx.close()
     st.dataframe(my_data_rows)
     
