@@ -61,8 +61,7 @@ if st.button("Get Fruit List"):
 #my_cur = my_cnx.cursor()
 #my_cur.execute("SELECT * from fruit_load_list")
     my_data_rows = get_fruit_load_list(my_cnx)
-    fr_t_s = my_data_rows.loc['jackfruit']
-    st.dataframe(fr_t_s)
+    my_data_rows.to_list()
     my_cnx.close()
     st.dataframe(my_data_rows)
     
@@ -71,9 +70,8 @@ add_my_fruit = st.text_input('What fruit would you like to add?')
 if not add_my_fruit:
     st.error("Please add a fruit name.")
 else :
-    if st.button("Add a Fruit to the List"):
+    if st.button("Add a Fruit to the List") and add_my_fruit not in my_data_rows.to_list():
         my_cnx = snowflake.connector.connect(**st.secrets["snowflake"])
-    
         back_from_function = insert_row_snowflake(add_my_fruit)
         my_cnx.close()
         st.text(back_from_function)
