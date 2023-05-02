@@ -52,7 +52,7 @@ try :
 except URLError as e:
     st.error()
 
-st.stop()
+#st.stop()
 if st.button("Get Fruit Load List"):
     my_cnx = snowflake.connector.connect(**st.secrets["snowflake"])
 #my_cur = my_cnx.cursor()
